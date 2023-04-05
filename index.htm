@@ -122,7 +122,9 @@
         $("#btnCheck").addClass("btn-primary");        
       }
       
-      $("#btnCheck").click(function() {
+      $("#btnCheck").submit(function(e) {
+        e.preventDefault();
+        
         // validate answer
         var answer = $("txtAnswer").value();
         var isAnswerCorrect = answer == question.answer;
