@@ -115,7 +115,7 @@
         } while (isRequiredOnly && !question.required);
         
         // update UI
-        $("#txtQuestion").html = question.text;
+        $("#txtQuestion").html(question.text);
         $("#txtAnswer").val("");
         $("#btnCheck").removeClass("btn-success btn-danger btn-primary");
         $("#btnCheck").addClass("btn-primary");        
