@@ -39,7 +39,7 @@
             <input type="checkbox" class="form-check-input" id="cbRequiredQuestions" checked="checked">
             <label class="form-check-label" for="cbRequiredQuestions">Only required questions</label>
           </div>
-          <button type="submit" class="btn btn-primary" id="btnCheck">Check</button>
+          <button type="submit" class="btn btn-primary" id="btnCheck">Check answer</button>
         </form>
       </div>
     </div>
@@ -116,8 +116,10 @@
         // update UI
         $("#txtQuestion").html(question.text);
         $("#txtAnswer").val("");
-        $("#btnCheck").removeClass("btn-success btn-danger btn-primary");
-        $("#btnCheck").addClass("btn-primary");        
+        $("#btnCheck")
+          .value("Check answer")
+          .removeClass("btn-success btn-danger btn-primary")
+          .addClass("btn-primary");
       }
       
       $("form").submit(function(e) {
@@ -131,6 +133,9 @@
         $("#btnCheck")
           .removeClass("btn-primary")
           .addClass(isAnswerCorrect ? "btn-success" : "btn-danger");
+        
+        if (!isAnswerCorrect)
+          $("#btnCheck").val(question.answer);
         
         setTimeout(nextQuestion, timeout);
         
