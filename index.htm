@@ -132,7 +132,7 @@
           .removeClass("btn-primary")
           .addClass(isAnswerCorrect ? "btn-success" : "btn-danger");
         
-        setTimeout(timeout, nextQuestion);
+        setTimeout(nextQuestion, timeout);
         
         return false;
       });
