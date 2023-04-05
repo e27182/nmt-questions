@@ -103,7 +103,6 @@
     
     $(function() {
       var timeout = 3000;
-      var timerId;
       var question;
       
       function nextQuestion() {
@@ -124,6 +123,7 @@
       
       $("#btnCheck").submit(function(e) {
         e.preventDefault();
+        e.stopPropagation();
         
         // validate answer
         var answer = $("txtAnswer").value();
@@ -134,7 +134,11 @@
           .addClass(isAnswerCorrect ? "btn-success" : "btn-danger");
         
         setTimeout(timeout, nextQuestion);
+        
+        return false;
       });
+      
+      nextQuestion();
     });
   </script>
 </body>
