@@ -1,0 +1,70 @@
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <form>
+          <div class="form-group">
+            <h2>&nbsp</h2>
+            <div id="txtQuestion"></div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="txtAnswer" placeholder="Enter your answer">
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="cbRequiredQuestions" checked="checked">
+            <label class="form-check-label" for="cbRequiredQuestions">Only required questions</label>
+          </div>
+          <button type="submit" class="btn btn-primary" id="btnCheck">Check answer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { data } from './data.js';
+    
+    $(function() {
+      const timeoutCorrect = 1000;
+      const timeoutIncorrect = 3000;
+      var question;
+      
+      function nextQuestion() {
+        // select question
+        var isRequiredOnly = $('#cbRequiredQuestions').prop('checked');
+        
+        do {
+          var questionIndex = Math.floor(Math.random() * data.length);
+          question = data[questionIndex];
+        } while (isRequiredOnly && !question.required);
+        
+        // update UI
+        $("#txtQuestion").html(question.text);
+        $("#txtAnswer").val("");
+        $("#btnCheck")
+          .html("Check answer")
+          .removeClass("btn-success btn-danger btn-primary")
+          .addClass("btn-primary");
+      }
+      
+      $("form").submit(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // validate answer
+        var answer = $("#txtAnswer").val();
+        var isAnswerCorrect = answer == question.answer;
+        
+        $("#btnCheck")
+          .removeClass("btn-primary")
+          .addClass(isAnswerCorrect ? "btn-success" : "btn-danger");
+        
+        if (!isAnswerCorrect)
+          $("#btnCheck").html(question.answer);
+        
+        setTimeout(nextQuestion, isAnswerCorrect ? timeoutCorrect : timeoutIncorrect);
+        
+        return false;
+      });
+      
+      nextQuestion();
+    });
+  </script>
