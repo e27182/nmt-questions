@@ -1,0 +1,91 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <form>
+          <div class="form-group">
+            <h2>&nbsp</h2>
+            <div id="txtQuestion"></div>
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="radio">Radio button for following text input 1</input>
+                <input type="radio">Radio button for following text input 2</input>
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="cbRequiredQuestions" checked="checked">
+            <label class="form-check-label" for="cbRequiredQuestions">Only required questions</label>
+          </div>
+          <button type="submit" class="btn btn-primary" id="btnCheck">Check answer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script type="module">
+    import { data } from './data.js';
+    
+    $(function() {
+      const timeoutCorrect = 1000;
+      const timeoutIncorrect = 3000;
+      var question;
+      
+      function nextQuestion() {
+        // select question
+        var isRequiredOnly = $('#cbRequiredQuestions').prop('checked');
+        
+        do {
+          var questionIndex = Math.floor(Math.random() * data.length);
+          question = data[questionIndex];
+        } while (isRequiredOnly && !question.required);
+        
+        // update UI
+        $("#txtQuestion").html(question.text);
+        $("#txtAnswer").val("");
+        $("#btnCheck")
+          .html("Check answer")
+          .removeClass("btn-success btn-danger btn-primary")
+          .addClass("btn-primary");
+      }
+      
+      $("form").submit(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // validate answer
+        var answer = $("#txtAnswer").val();
+        var isAnswerCorrect = answer == question.answer;
+        
+        $("#btnCheck")
+          .removeClass("btn-primary")
+          .addClass(isAnswerCorrect ? "btn-success" : "btn-danger");
+        
+        if (!isAnswerCorrect)
+          $("#btnCheck").html(question.answer);
+        
+        setTimeout(nextQuestion, isAnswerCorrect ? timeoutCorrect : timeoutIncorrect);
+        
+        return false;
+      });
+      
+      nextQuestion();
+    });
+  </script>
+  </body>
+</html>
