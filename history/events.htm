@@ -79,8 +79,8 @@
         e.stopPropagation();
         
         // validate answer
-        var answer = $('input[name="rdAnswers"]:checked').val();
-        var isAnswerCorrect = answer == answer.text;
+        var selectedAnswer = $('input[name="rdAnswers"]:checked').val();
+        var isAnswerCorrect = selectedAnswer == answer.text;
         
         $("#btnCheck")
           .removeClass("btn-primary")
