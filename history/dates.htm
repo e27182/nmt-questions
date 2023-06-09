@@ -48,7 +48,10 @@
         do {
           var questionIndex = Math.floor(Math.random() * data.length);
           question = data[questionIndex];
-        } while (isRequiredOnly && !question.required);
+          question.stats ||= 0;
+        } while (isRequiredOnly && !question.required && question.stats < 3);
+        
+        question.stats += 1;
         
         // update UI
         $("#txtQuestion").html(question.text);
