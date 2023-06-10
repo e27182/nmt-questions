@@ -49,7 +49,7 @@
           var questionIndex = Math.floor(Math.random() * data.length);
           question = data[questionIndex];
           question.stats ||= 0;
-        } while (isRequiredOnly && !question.required && question.stats < 3);
+        } while ((isRequiredOnly && !question.required) || question.stats >= 1);
         
         question.stats += 1;
         
